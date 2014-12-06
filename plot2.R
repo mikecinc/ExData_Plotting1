@@ -1,0 +1,8 @@
+power_data <- read.csv.sql("household_power_consumption.txt", sql = "select * from file where Date in ('1/2/2007','2/2/2007')", sep = ";")
+power_table = data.table(power_data)
+power_table$DateTime <- as.POSIXct( strptime(paste(power_table$Date, power_table$Time), format="%d/%m/%Y %H:%M:%S"))
+library(datasets)
+plot(power_table$DateTime,power_table$Global_active_power,type = "n",xlab="",ylab="Global Active Power (kilowatts)")
+lines(power_table$DateTime,power_table$Global_active_power)
+dev.copy(png,file = "plot2.png", width = 480, height = 480)
+dev.off()
